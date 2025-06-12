@@ -6,6 +6,10 @@ import "./App.css";
 function App() {
   const [count, setCount] = useState(0);
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  window.electron.getStaticData();
+
   return (
     <>
       <div>

@@ -2,6 +2,7 @@
   "appId": "com.company-name.resource-manager",
   "files": ["dist-electron", "dist-react"],
   "icon": "./app-icon.png",
+  "extraResources": ["dist-electron/preload.cjs"],
   "mac": {
     "target": "dmg"
   },
