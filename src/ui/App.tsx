@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -6,9 +6,15 @@ import "./App.css";
 function App() {
   const [count, setCount] = useState(0);
 
+  useEffect(() => {
+    window.electron.subscribeStatistics((stats) =>
+      console.log("Stats: ", stats)
+    );
+  }, []);
+
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  window.electron.getStaticData();
+  // window.electron.getStaticData();
 
   return (
     <>

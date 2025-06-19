@@ -1,24 +1,24 @@
 import osUtils from "os-utils";
 import fs from "fs";
 import os from "os";
+import { BrowserWindow } from "electron";
 
 const POLLING_INTERVAL = 500;
-export const pollResources = () => {
+export const pollResources = (mainWindow: BrowserWindow) => {
   setInterval(async () => {
-    const result = await getCpuUsage();
-    console.log(
-      "Result: ",
-      result,
-      "getRamUsage: ",
-      getRamUsage(),
-      "Disk: ",
-      getDiskData()
-    );
+    const cpuUsage = await getCpuUsage();
+    const ramUsage = getRamUsage();
+    const strorageData = getStorageData();
+    mainWindow.webContents.send("statistics", {
+      cpuUsage,
+      ramUsage,
+      strorageUsage: strorageData.usage,
+    });
   }, POLLING_INTERVAL);
 };
 
 export const getStaticData = () => {
-  const totalStorage = getDiskData().total;
+  const totalStorage = getStorageData().total;
   const cpuModel = os.cpus()[0].model;
   const totalMemoryGB = Math.floor(osUtils.totalmem() / 1024);
 
@@ -39,7 +39,7 @@ const getRamUsage = () => {
   return 1 - osUtils.freememPercentage();
 };
 
-const getDiskData = () => {
+const getStorageData = (): { total: number; usage: number } => {
   // FS module require node 18+
   const stats = fs.statfsSync(process.platform === "win32" ? "C://" : "/");
   const total = stats.bsize * stats.blocks;
