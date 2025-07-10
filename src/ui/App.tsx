@@ -7,9 +7,10 @@ function App() {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    window.electron.subscribeStatistics((stats) =>
+    const unsub = window.electron.subscribeStatistics((stats) =>
       console.log("Stats: ", stats)
     );
+    return unsub;
   }, []);
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment

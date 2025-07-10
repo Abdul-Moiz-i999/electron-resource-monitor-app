@@ -4,6 +4,8 @@ type Statistics = {
   storageUsage: number;
 };
 
+type UnsubscribeFunction = () => void;
+
 type StaticData = {
   totalStorage: number;
   cpuModel: string;
@@ -17,7 +19,9 @@ type EventPayloadMapping = {
 
 interface Window {
   electron: {
-    subscribeStatistics: (callback: (statistics: Statistics) => void) => void;
+    subscribeStatistics: (
+      callback: (statistics: Statistics) => void
+    ) => UnsubscribeFunction;
     getStaticData: () => Promise<StaticData>;
   };
 }

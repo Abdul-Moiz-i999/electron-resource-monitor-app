@@ -1,4 +1,6 @@
-import { ipcMain, WebContents } from "electron/main";
+import { ipcMain, WebContents, WebFrameMain } from "electron/main";
+import { pathToFileURL } from "url";
+import { getUIPath } from "./pathResolver.js";
 
 export function isDev(): boolean {
   return process.env.NODE_ENV === "development";
@@ -8,7 +10,8 @@ export function ipcHandle<Key extends keyof EventPayloadMapping>(
   key: Key,
   handler: () => EventPayloadMapping[Key]
 ) {
-  ipcMain.handle(key, () => {
+  ipcMain.handle(key, (event) => {
+    validateEventFrame(event.senderFrame);
     return handler();
   });
 }
@@ -19,4 +22,13 @@ export function ipcSend<Key extends keyof EventPayloadMapping>(
   data: EventPayloadMapping[Key]
 ) {
   webContents.send(key, data);
+}
+
+export function validateEventFrame(frame: WebFrameMain | null) {
+  if (!frame) throw new Error("Wrong Event");
+  else if (isDev() && new URL(frame.url).host === "localhost:5123") {
+    return;
+  } else if (frame.url !== pathToFileURL(getUIPath()).toString()) {
+    throw new Error("Malicious Event");
+  }
 }
