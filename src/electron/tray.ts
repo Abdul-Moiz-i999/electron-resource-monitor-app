@@ -17,9 +17,7 @@ export function createTray(mainWindow: BrowserWindow) {
       {
         label: "Quit",
         click: () => {
-          console.log("TRAY:", tray);
           app.quit();
-          tray?.destroy();
         },
       },
       //   {
@@ -37,4 +35,5 @@ export function createTray(mainWindow: BrowserWindow) {
       //   },
     ])
   );
+  return tray;
 }

@@ -3,7 +3,10 @@ import { getPreloadPath, getUIPath } from "./pathResolver.js";
 import { getStaticData, pollResources } from "./resourceManager.js";
 import { createTray } from "./tray.js";
 import { ipcHandle, isDev } from "./util.js";
+import { createMenu } from "./menu.js";
 
+// Enabling this line and disabling createMenu function will disable default app menu
+// Menu.setApplicationMenu(null);
 app.on("ready", () => {
   const mainWindow = new BrowserWindow({
     webPreferences: {
@@ -22,6 +25,7 @@ app.on("ready", () => {
   ipcHandle("getStaticData", () => getStaticData());
 
   // handleGetStaticData(() => getStaticData());
+  createMenu(mainWindow);
   handleCloseButton(mainWindow);
 });
 let closeApp = false;
@@ -31,7 +35,7 @@ function handleCloseButton(mainWindow: BrowserWindow) {
       return;
     }
     e.preventDefault();
-    createTray(mainWindow);
+    const tray = createTray(mainWindow);
     console.log("Createing tray again: ", closeApp);
     mainWindow.hide();
 
@@ -41,6 +45,7 @@ function handleCloseButton(mainWindow: BrowserWindow) {
 
     app.on("before-quit", () => {
       console.log("before-quit called");
+      tray?.destroy();
       closeApp = true;
     });
 
