@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import "./App.css";
-import reactLogo from "./assets/react.svg";
+import reactLogo from "../assets/react.svg";
 import { Chart } from "./Chart";
 import { useStatistics } from "./hooks/useStatistics";
 function App() {
