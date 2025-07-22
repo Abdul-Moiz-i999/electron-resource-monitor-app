@@ -1,8 +1,8 @@
-import { app, BrowserWindow, Tray } from "electron";
-import { ipcHandle, isDev } from "./util.js";
+import { app, BrowserWindow } from "electron";
+import { getPreloadPath, getUIPath } from "./pathResolver.js";
 import { getStaticData, pollResources } from "./resourceManager.js";
-import { getAssetsPath, getPreloadPath, getUIPath } from "./pathResolver.js";
-import path from "path";
+import { createTray } from "./tray.js";
+import { ipcHandle, isDev } from "./util.js";
 
 app.on("ready", () => {
   const mainWindow = new BrowserWindow({
@@ -22,17 +22,17 @@ app.on("ready", () => {
   ipcHandle("getStaticData", () => getStaticData());
 
   // handleGetStaticData(() => getStaticData());
-  new Tray(path.join(getAssetsPath(), "tray-icon.png"));
   handleCloseButton(mainWindow);
 });
-
+let closeApp = false;
 function handleCloseButton(mainWindow: BrowserWindow) {
   mainWindow.on("close", (e) => {
-    let closeApp = false;
     if (closeApp) {
       return;
     }
     e.preventDefault();
+    createTray(mainWindow);
+    console.log("Createing tray again: ", closeApp);
     mainWindow.hide();
 
     if (app.dock) {
@@ -40,10 +40,12 @@ function handleCloseButton(mainWindow: BrowserWindow) {
     }
 
     app.on("before-quit", () => {
+      console.log("before-quit called");
       closeApp = true;
     });
 
     mainWindow.on("show", () => {
+      console.log("show called");
       closeApp = false;
     });
   });
