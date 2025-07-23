@@ -5,8 +5,12 @@ import { BrowserWindow } from "electron";
 import { ipcSend } from "./util.js";
 
 const POLLING_INTERVAL = 500;
-export const pollResources = (mainWindow: BrowserWindow) => {
-  setInterval(async () => {
+let interval: NodeJS.Timeout | null = null;
+export const startPollResources = (mainWindow: BrowserWindow) => {
+  // Interval already running
+  if (interval) return;
+
+  interval = setInterval(async () => {
     const cpuUsage = await getCpuUsage();
     const ramUsage = getRamUsage();
     const strorageData = getStorageData();
@@ -21,6 +25,13 @@ export const pollResources = (mainWindow: BrowserWindow) => {
     //   strorageUsage: strorageData.usage,
     // });
   }, POLLING_INTERVAL);
+};
+
+export const stopPolling = () => {
+  if (interval) {
+    clearInterval(interval);
+    interval = null;
+  }
 };
 
 export const getStaticData = () => {

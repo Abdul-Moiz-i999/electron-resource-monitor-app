@@ -1,19 +1,27 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import reactLogo from "../assets/react.svg";
 import { Chart } from "./Chart";
 import { useStatistics } from "./hooks/useStatistics";
 function App() {
   const [count, setCount] = useState(0);
+  const [view, setView] = useState<View>("cpuUsage");
 
   const statistics = useStatistics(10);
 
   const cpuUsage = useMemo(
-    () => statistics.map((data) => data.cpuUsage),
-    [statistics]
+    () => statistics.map((data) => data[view]),
+    [statistics, view]
   );
 
   // console.log("Statistics: ", statistics);
+
+  useEffect(() => {
+    const unsub = window.electron.subscribeView((view) => {
+      setView(view);
+    });
+    return unsub;
+  }, []);
 
   // useEffect(() => {
   //   const unsub = window.electron.subscribeStatistics((stats) =>

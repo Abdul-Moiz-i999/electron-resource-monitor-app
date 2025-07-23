@@ -1,9 +1,14 @@
 import { app, BrowserWindow } from "electron";
 import { getPreloadPath, getUIPath } from "./pathResolver.js";
-import { getStaticData, pollResources } from "./resourceManager.js";
+import {
+  getStaticData,
+  startPollResources,
+  stopPolling,
+} from "./resourceManager.js";
 import { createTray } from "./tray.js";
 import { ipcHandle, isDev } from "./util.js";
 import { createMenu } from "./menu.js";
+import { ipcMain } from "electron/main";
 
 // Enabling this line and disabling createMenu function will disable default app menu
 // Menu.setApplicationMenu(null);
@@ -19,7 +24,14 @@ app.on("ready", () => {
   } else {
     mainWindow.loadFile(getUIPath());
   }
-  pollResources(mainWindow);
+  ipcMain.on("startPolling", () => {
+    startPollResources(mainWindow);
+  });
+
+  ipcMain.on("stopPolling", () => {
+    stopPolling();
+  });
+
   // ipcMain.handle("getStaticData", () => getStaticData());
 
   ipcHandle("getStaticData", () => getStaticData());
@@ -28,6 +40,7 @@ app.on("ready", () => {
   createMenu(mainWindow);
   handleCloseButton(mainWindow);
 });
+
 let closeApp = false;
 function handleCloseButton(mainWindow: BrowserWindow) {
   mainWindow.on("close", (e) => {
