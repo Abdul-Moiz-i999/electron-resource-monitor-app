@@ -4,7 +4,6 @@ export const useStatistics = (dataPointLimit: number): Statistics[] => {
   const [value, setValue] = useState<Statistics[]>([]);
 
   useEffect(() => {
-    window.electron.startPolling();
     const unsub = window.electron.subscribeStatistics((stats) => {
       setValue((prev) => {
         const newStats = [...prev, stats];
