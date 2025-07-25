@@ -13,11 +13,18 @@ type StaticData = {
 };
 
 type View = "cpuUsage" | "ramUsage" | "storageUsage";
+type HeaderAction = "MINIMIZE" | "MAXIMIZE" | "CLOSE";
 
 type EventPayloadMapping = {
   statistics: Statistics;
   getStaticData: StaticData;
   subscribeView: View;
+  sendHeaderAction: HeaderAction;
+};
+
+type EventMapping = {
+  startPolling: "startPolling";
+  stopPolling: "stopPolling";
 };
 
 interface Window {
@@ -27,5 +34,8 @@ interface Window {
       callback: (statistics: Statistics) => void
     ) => UnsubscribeFunction;
     getStaticData: () => Promise<StaticData>;
+    sendHeaderAction: (payload: HeaderAction) => void;
+    // stopPolling: () => void;
+    // startPolling: () => void;
   };
 }

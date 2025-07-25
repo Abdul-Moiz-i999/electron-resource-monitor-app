@@ -9,8 +9,11 @@ electron.contextBridge.exposeInMainWorld("electron", {
     //   callback(view)
     // })
   },
-  // startPolling: () => ipcRenderer.send("startPolling"),
-  // stopPolling: () => ipcRenderer.send("stopPolling"),
+  sendHeaderAction: (payload: HeaderAction) => {
+    ipcSendWithPayload("sendHeaderAction", payload);
+  },
+  // startPolling: () => ipcSendWithoutPayload("startPolling"),
+  // stopPolling: () => ipcSendWithoutPayload("stopPolling"),
   subscribeStatistics: (callback: (statistics: any) => void) => {
     // electron.ipcRenderer.on("statistics", (_: any, stats: any) => {
     //   callback(stats);
@@ -21,16 +24,27 @@ electron.contextBridge.exposeInMainWorld("electron", {
   getStaticData: () => ipcInvoke("getStaticData"),
 } satisfies Window["electron"]);
 
+function ipcSendWithPayload<Key extends keyof EventPayloadMapping>(
+  key: Key,
+  payload: HeaderAction
+) {
+  ipcRenderer.send(key, payload);
+}
+
+function ipcSendWithoutPayload<Key extends keyof EventMapping>(key: Key) {
+  ipcRenderer.send(key);
+}
+
 function ipcOn<Key extends keyof EventPayloadMapping>(
   key: Key,
   callback: (payload: EventPayloadMapping[Key]) => void
 ) {
   const cb = (_: any, payload: EventPayloadMapping[Key]) => callback(payload);
-  ipcRenderer.send("startPolling");
+  ipcSendWithoutPayload("startPolling");
   electron.ipcRenderer.on(key, cb);
   return () => {
     electron.ipcRenderer.off(key, cb);
-    ipcRenderer.send("stopPolling");
+    ipcSendWithoutPayload("stopPolling");
   };
 }
 

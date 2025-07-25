@@ -42,6 +42,20 @@ function App() {
 
   return (
     <>
+      <header>
+        <button
+          id="minimize"
+          onClick={() => window.electron.sendHeaderAction("MINIMIZE")}
+        />
+        <button
+          id="maximize"
+          onClick={() => window.electron.sendHeaderAction("MAXIMIZE")}
+        />
+        <button
+          id="close"
+          onClick={() => window.electron.sendHeaderAction("CLOSE")}
+        />
+      </header>
       <div>
         <div style={{ height: 140 }}>
           <Chart data={cpuUsage} maxPoints={10} />

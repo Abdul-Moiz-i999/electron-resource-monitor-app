@@ -4,6 +4,7 @@ import path from "path";
 
 export function createTray(mainWindow: BrowserWindow) {
   const tray = new Tray(path.join(getAssetsPath(), "tray-icon.png"));
+  tray.setToolTip("My App");
   tray.setContextMenu(
     Menu.buildFromTemplate([
       {
@@ -35,5 +36,14 @@ export function createTray(mainWindow: BrowserWindow) {
       //   },
     ])
   );
+
+  tray.on("click", () => {
+    if (mainWindow.isMinimized()) {
+      mainWindow.restore();
+    }
+    mainWindow.show();
+    mainWindow.focus();
+    tray?.destroy();
+  });
   return tray;
 }

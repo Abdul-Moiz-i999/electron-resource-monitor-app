@@ -24,6 +24,26 @@ export function ipcSend<Key extends keyof EventPayloadMapping>(
   webContents.send(key, data);
 }
 
+export function ipcOnWithPayload<Key extends keyof EventPayloadMapping>(
+  key: Key,
+  handler: (payload: HeaderAction) => void
+) {
+  ipcMain.on(key, (event, payload: HeaderAction) => {
+    validateEventFrame(event.senderFrame);
+    return handler(payload);
+  });
+}
+
+export function ipcOnWithoutPayload<Key extends keyof EventMapping>(
+  key: Key,
+  handler: () => void
+) {
+  ipcMain.on(key, (event) => {
+    validateEventFrame(event.senderFrame);
+    return handler();
+  });
+}
+
 export function validateEventFrame(frame: WebFrameMain | null) {
   if (!frame) throw new Error("Wrong Event");
   else if (isDev() && new URL(frame.url).host === "localhost:5123") {
