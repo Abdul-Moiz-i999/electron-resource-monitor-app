@@ -11,6 +11,9 @@ This is a real time responsive resource monitor app built with React + Electron.
 ### Responsive View when App is Shrinked to the Minimum By Dragging
 <img width="433" height="446" alt="image" src="https://github.com/user-attachments/assets/e1799ccf-f5a8-4308-997c-caae9e180224" />
 
+### Custom Menu Addition (Remove frame: false line in main.ts in electron folder)
+<img width="1182" height="883" alt="image" src="https://github.com/user-attachments/assets/f0874929-f582-4cc6-bd56-ffb348aba206" />
+
 # Technology Stack
 
 ## Frontend:
