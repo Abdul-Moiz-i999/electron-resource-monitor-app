@@ -1,7 +1,6 @@
 import { memo } from "react";
 
 const Header = memo(() => {
-  console.log("Header rerender");
   return (
     <header>
       <button

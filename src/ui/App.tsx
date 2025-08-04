@@ -4,18 +4,12 @@ import { Chart } from "./Chart";
 import { useStatistics } from "./hooks/useStatistics";
 import SelectOption from "./SelectOption";
 import Header from "./Header";
+import { useStaticData } from "./hooks/useStaticData";
 
 function App() {
-  const useStaticData = () => {
-    const [staticData, setStaticData] = useState<StaticData>();
-
-    useEffect(() => {
-      (async () => {
-        setStaticData(await window.electron.getStaticData());
-      })();
-    }, []);
-    return staticData;
-  };
+  const [view, setView] = useState<View>("CPU");
+  const staticData = useStaticData();
+  const statistics = useStatistics(10);
 
   useEffect(() => {
     const unsub = window.electron.subscribeView((view) => {
@@ -23,12 +17,6 @@ function App() {
     });
     return unsub;
   }, []);
-
-  const [view, setView] = useState<View>("CPU");
-
-  const staticData = useStaticData();
-
-  const statistics = useStatistics(10);
 
   const cpuUsage = useMemo(
     () => statistics.map((data) => data.cpuUsage),
@@ -59,7 +47,7 @@ function App() {
   return (
     <>
       <Header />
-      <h1 className="appTitle">Resource Manager App</h1>
+      <h1 className="appTitle">Resource Monitor App</h1>
       <div className="main">
         <div className="selectOptions">
           <SelectOption
