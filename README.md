@@ -2,7 +2,7 @@
 
 ## Description
 
-This is a real time responsive resource monitor app built with React + Electron. It is written in TypeScript and is completely typesafe from both React and Electron side. The user can click on any of the CPU, RAM and Storage resource and can see it's updates in real time.
+This is a real time responsive resource monitor app built with React + Electron. It is written in TypeScript and is completely typesafe from both React and Electron side. The user can click on any of the CPU, RAM and Storage resource and can see it's updates in real time. It also has tray functionality implemented keeping in mind different OS behavior on the tray menu.
 
 ## Screenshots of the App
 
