@@ -12,4 +12,10 @@ export default defineConfig({
     port: 5123,
     strictPort: true,
   },
+
+  resolve: {
+    alias: {
+      "electron/main": "electron", // Treat it as just 'electron'
+    },
+  },
 });

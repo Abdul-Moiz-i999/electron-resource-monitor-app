@@ -21,18 +21,16 @@ export function createMenu(mainWindow: BrowserWindow) {
         submenu: [
           {
             label: "CPU",
-            click: () =>
-              mainWindow.webContents.send("subscribeView", "cpuUsage"),
+            click: () => mainWindow.webContents.send("subscribeView", "CPU"),
           },
           {
             label: "RAM",
-            click: () =>
-              mainWindow.webContents.send("subscribeView", "ramUsage"),
+            click: () => mainWindow.webContents.send("subscribeView", "RAM"),
           },
           {
             label: "STORAGE",
             click: () =>
-              mainWindow.webContents.send("subscribeView", "storageUsage"),
+              mainWindow.webContents.send("subscribeView", "STORAGE"),
           },
         ],
       },

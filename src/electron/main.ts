@@ -19,10 +19,12 @@ import { createMenu } from "./menu.js";
 // Menu.setApplicationMenu(null);
 app.on("ready", () => {
   const mainWindow = new BrowserWindow({
+    minWidth: 500,
+    minHeight: 550,
     webPreferences: {
       preload: getPreloadPath(),
     },
-    // frame: false,
+    frame: false,
   });
 
   if (isDev()) {

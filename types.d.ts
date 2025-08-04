@@ -12,7 +12,7 @@ type StaticData = {
   totalMemoryGB: number;
 };
 
-type View = "cpuUsage" | "ramUsage" | "storageUsage";
+type View = "CPU" | "RAM" | "STORAGE";
 type HeaderAction = "MINIMIZE" | "MAXIMIZE" | "CLOSE";
 
 type EventPayloadMapping = {

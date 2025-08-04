@@ -1,20 +1,21 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
-import reactLogo from "../assets/react.svg";
 import { Chart } from "./Chart";
 import { useStatistics } from "./hooks/useStatistics";
+import SelectOption from "./SelectOption";
+import Header from "./Header";
+
 function App() {
-  const [count, setCount] = useState(0);
-  const [view, setView] = useState<View>("cpuUsage");
+  const useStaticData = () => {
+    const [staticData, setStaticData] = useState<StaticData>();
 
-  const statistics = useStatistics(10);
-
-  const cpuUsage = useMemo(
-    () => statistics.map((data) => data[view]),
-    [statistics, view]
-  );
-
-  // console.log("Statistics: ", statistics);
+    useEffect(() => {
+      (async () => {
+        setStaticData(await window.electron.getStaticData());
+      })();
+    }, []);
+    return staticData;
+  };
 
   useEffect(() => {
     const unsub = window.electron.subscribeView((view) => {
@@ -22,6 +23,38 @@ function App() {
     });
     return unsub;
   }, []);
+
+  const [view, setView] = useState<View>("CPU");
+
+  const staticData = useStaticData();
+
+  const statistics = useStatistics(10);
+
+  const cpuUsage = useMemo(
+    () => statistics.map((data) => data.cpuUsage),
+    [statistics]
+  );
+
+  const ramUsage = useMemo(
+    () => statistics.map((data) => data.ramUsage),
+    [statistics]
+  );
+
+  const storageUsage = useMemo(
+    () => statistics.map((data) => data.storageUsage),
+    [statistics]
+  );
+
+  const usageForMainScreen = useMemo(() => {
+    switch (view) {
+      case "CPU":
+        return cpuUsage;
+      case "RAM":
+        return ramUsage;
+      case "STORAGE":
+        return storageUsage;
+    }
+  }, [cpuUsage, ramUsage, storageUsage, view]);
 
   // useEffect(() => {
   //   const unsub = window.electron.subscribeStatistics((stats) =>
@@ -42,40 +75,33 @@ function App() {
 
   return (
     <>
-      <header>
-        <button
-          id="minimize"
-          onClick={() => window.electron.sendHeaderAction("MINIMIZE")}
-        />
-        <button
-          id="maximize"
-          onClick={() => window.electron.sendHeaderAction("MAXIMIZE")}
-        />
-        <button
-          id="close"
-          onClick={() => window.electron.sendHeaderAction("CLOSE")}
-        />
-      </header>
-      <div>
-        <div style={{ height: 140 }}>
-          <Chart data={cpuUsage} maxPoints={10} />
+      <Header />
+      <h1 className="appTitle">Resource Manager App</h1>
+      <div className="main">
+        <div className="selectOptions">
+          <SelectOption
+            subTitle={staticData?.cpuModel ?? ""}
+            data={cpuUsage}
+            view={"CPU"}
+            onClick={() => setView("CPU")}
+          />
+          <SelectOption
+            subTitle={(staticData?.totalMemoryGB.toString() ?? "") + " GB"}
+            data={ramUsage}
+            view={"RAM"}
+            onClick={() => setView("RAM")}
+          />
+          <SelectOption
+            subTitle={(staticData?.totalStorage.toString() ?? "") + " GB"}
+            data={storageUsage}
+            view={"STORAGE"}
+            onClick={() => setView("STORAGE")}
+          />
         </div>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <div className="mainGrid">
+          <Chart selectedView={view} data={usageForMainScreen} maxPoints={10} />
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count isss {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   );
 }
