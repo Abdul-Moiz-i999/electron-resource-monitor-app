@@ -8,17 +8,15 @@ This is a real time responsive resource monitor app built with React + Electron.
 
 <img width="597" height="446" alt="image" src="https://github.com/user-attachments/assets/a3839db7-663c-4bc7-8759-869e3d401f41" />
 
-### Responsive View when Shrinked
+### Responsive View when App is Shrinked to the Minimum By Dragging
 <img width="433" height="446" alt="image" src="https://github.com/user-attachments/assets/e1799ccf-f5a8-4308-997c-caae9e180224" />
 
 # Technology Stack
 
 ## Frontend:
 - React – UI library for building the interface
-- Recharts – Data visualization (charts for CPU, RAM, etc.)
+- Recharts – Data visualization (charts for CPU, RAM, Storage.)
 - Vite – Fast build tool and development server
-- TypeScript 
-- ESLint – Linting and code quality
 
 ## Backend (Electron main process)
 - Electron
@@ -26,10 +24,10 @@ This is a real time responsive resource monitor app built with React + Electron.
 - os-utils
 
 ## Tooling / Development
-> TypeScript
-> ESLint
-> electron-builder
-> npm
+- TypeScript
+- ESLint
+- electron-builder
+- npm
 
 # Instructions To Setup
 
