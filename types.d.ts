@@ -35,7 +35,5 @@ interface Window {
     ) => UnsubscribeFunction;
     getStaticData: () => Promise<StaticData>;
     sendHeaderAction: (payload: HeaderAction) => void;
-    // stopPolling: () => void;
-    // startPolling: () => void;
   };
 }

@@ -56,23 +56,6 @@ function App() {
     }
   }, [cpuUsage, ramUsage, storageUsage, view]);
 
-  // useEffect(() => {
-  //   const unsub = window.electron.subscribeStatistics((stats) =>
-  //     console.log("Stats: ", stats)
-  //   );
-  //   return unsub;
-  // }, []);
-
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  // window.electron.getStaticData();
-
-  //  <div style={{ height: 140 }}>
-  //       <BaseChart
-  //         data={[{ value: 0 }, { value: 30 }, { value: 100 }]}
-  //       ></BaseChart>
-  //     </div>
-
   return (
     <>
       <Header />

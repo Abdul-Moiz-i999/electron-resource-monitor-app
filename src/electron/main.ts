@@ -13,7 +13,6 @@ import {
   isDev,
 } from "./util.js";
 import { createMenu } from "./menu.js";
-// import { ipcMain } from "electron/main";
 
 // Enabling this line and disabling createMenu function will disable default app menu
 // Menu.setApplicationMenu(null);
@@ -32,11 +31,7 @@ app.on("ready", () => {
   } else {
     mainWindow.loadFile(getUIPath());
   }
-  // ipcMain.on("startPolling", () => {
-  //   startPollResources(mainWindow);
-  // });
 
-  // ipcMain.on("sendHeaderAction", (_, payload) => {
   ipcOnWithPayload("sendHeaderAction", (payload: HeaderAction) => {
     switch (payload) {
       case "MINIMIZE":
@@ -63,15 +58,8 @@ app.on("ready", () => {
     stopPolling();
   });
 
-  // ipcMain.on("stopPolling", () => {
-  //   stopPolling();
-  // });
-
-  // ipcMain.handle("getStaticData", () => getStaticData());
-
   ipcHandle("getStaticData", () => getStaticData());
 
-  // handleGetStaticData(() => getStaticData());
   createMenu(mainWindow);
   handleCloseButton(mainWindow);
 });
@@ -84,7 +72,6 @@ function handleCloseButton(mainWindow: BrowserWindow) {
     }
     e.preventDefault();
     const tray = createTray(mainWindow);
-    console.log("Createing tray again: ", closeApp);
     mainWindow.hide();
 
     if (app.dock) {
@@ -92,18 +79,12 @@ function handleCloseButton(mainWindow: BrowserWindow) {
     }
 
     app.on("before-quit", () => {
-      console.log("before-quit called");
       tray?.destroy();
       closeApp = true;
     });
 
     mainWindow.on("show", () => {
-      console.log("show called");
       closeApp = false;
     });
   });
 }
-
-// const handleGetStaticData = (callback: () => StaticData) => {
-//   ipcMain.handle("getStaticData", () => callback());
-// };

@@ -5,9 +5,6 @@ const electron = require("electron");
 electron.contextBridge.exposeInMainWorld("electron", {
   subscribeView: (callback: (view: any) => void) => {
     return ipcOn("subscribeView", callback);
-    // electron.ipcRenderer.on("view", (_: any, view: any) => {
-    //   callback(view)
-    // })
   },
   sendHeaderAction: (payload: HeaderAction) => {
     ipcSendWithPayload("sendHeaderAction", payload);
@@ -15,12 +12,8 @@ electron.contextBridge.exposeInMainWorld("electron", {
   // startPolling: () => ipcSendWithoutPayload("startPolling"),
   // stopPolling: () => ipcSendWithoutPayload("stopPolling"),
   subscribeStatistics: (callback: (statistics: any) => void) => {
-    // electron.ipcRenderer.on("statistics", (_: any, stats: any) => {
-    //   callback(stats);
-    // });
     return ipcOn("statistics", callback);
   },
-  // getStaticData: () => electron.ipcRenderer.invoke("getStaticData"),
   getStaticData: () => ipcInvoke("getStaticData"),
 } satisfies Window["electron"]);
 

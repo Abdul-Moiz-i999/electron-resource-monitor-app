@@ -5,7 +5,7 @@ export function createMenu(mainWindow: BrowserWindow) {
   Menu.setApplicationMenu(
     Menu.buildFromTemplate([
       {
-        // Mac bydefault will call it electron (app name) so setting it is not recommended as it does nothing
+        // Mac by default will call it electron (app name) so setting it is not recommended as it does nothing
         label: process.platform === "darwin" ? undefined : "App",
         type: "submenu",
         submenu: [

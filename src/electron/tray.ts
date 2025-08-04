@@ -21,19 +21,6 @@ export function createTray(mainWindow: BrowserWindow) {
           app.quit();
         },
       },
-      //   {
-      //     label: "submenu",
-      //     submenu: [
-      //       {
-      //         label: "1",
-      //         type: "radio",
-      //       },
-      //       {
-      //         label: "2",
-      //         type: "radio",
-      //       },
-      //     ],
-      //   },
     ])
   );
 

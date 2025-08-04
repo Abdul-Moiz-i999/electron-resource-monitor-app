@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { describe, expect, Mock, test, vi } from "vitest";
+import { expect, Mock, test, vi } from "vitest";
 import { createTray } from "./tray.js";
 import { app, BrowserWindow, Menu } from "electron/main";
 
@@ -35,9 +35,6 @@ test("Check tray", () => {
   expect(template).toHaveLength(2);
   template[0].click?.(null as any, null as any, null as any);
   expect(mainWindow.show).toHaveBeenCalled();
-  //   expect(Menu.buildFromTemplate).toHaveBeenCalled();
   template[1].click?.(null as any, null as any, null as any);
   expect(app.quit).toHaveBeenCalled();
 });
-
-// test("check tray 2", () => {});

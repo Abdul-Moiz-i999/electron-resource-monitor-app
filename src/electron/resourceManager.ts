@@ -19,11 +19,6 @@ export const startPollResources = (mainWindow: BrowserWindow) => {
       ramUsage,
       storageUsage: strorageData.usage,
     });
-    // mainWindow.webContents.send("statistics", {
-    //   cpuUsage,
-    //   ramUsage,
-    //   strorageUsage: strorageData.usage,
-    // });
   }, POLLING_INTERVAL);
 };
 
