@@ -14,16 +14,16 @@ This is a real time responsive resource monitor app built with React + Electron.
 # Technology Stack
 
 ## Frontend:
-> React – UI library for building the interface
-> Recharts – Data visualization (charts for CPU, RAM, etc.)
-> Vite – Fast build tool and development server
-> TypeScript 
-ESLint – Linting and code quality
+- React – UI library for building the interface
+- Recharts – Data visualization (charts for CPU, RAM, etc.)
+- Vite – Fast build tool and development server
+- TypeScript 
+- ESLint – Linting and code quality
 
 ## Backend (Electron main process)
-> Electron
-> Node.js
-> os-utils
+- Electron
+- Node.js
+- os-utils
 
 ## Tooling / Development
 > TypeScript
@@ -49,9 +49,8 @@ ESLint – Linting and code quality
 
 
 # Extra Information
-
-> Other commands are available in **package.json**  
-> The **types** file in the root defines global types for React (adds to `window` object)  
-> React code is located in **src/UI**  
-> Electron code is located in **src/electron**  
-> Build configuration is in **electron-builder.json**
+- Other commands are available in **package.json**  
+- The **types** file in the root defines global types for React (adds to `window` object)  
+- React code is located in **src/UI**  
+- Electron code is located in **src/electron**  
+- Build configuration is in **electron-builder.json**
