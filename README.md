@@ -1,54 +1,57 @@
-# React + TypeScript + Vite
+# Resource Monitor App - Electron
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Description
 
-Currently, two official plugins are available:
+This is a real time responsive resource monitor app built with React + Electron. It is written in TypeScript and is completely typesafe from both React and Electron side. The user can click on any of the CPU, RAM and Storage resource and can see it's updates in real time.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Screenshots of the App
 
-## Expanding the ESLint configuration
+<img width="597" height="446" alt="image" src="https://github.com/user-attachments/assets/a3839db7-663c-4bc7-8759-869e3d401f41" />
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Responsive View when Shrinked
+<img width="433" height="446" alt="image" src="https://github.com/user-attachments/assets/e1799ccf-f5a8-4308-997c-caae9e180224" />
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+# Technology Stack
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Frontend:
+> React – UI library for building the interface
+> Recharts – Data visualization (charts for CPU, RAM, etc.)
+> Vite – Fast build tool and development server
+> TypeScript 
+ESLint – Linting and code quality
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Backend (Electron main process)
+> Electron
+> Node.js
+> os-utils
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## Tooling / Development
+> TypeScript
+> ESLint
+> electron-builder
+> npm
+
+# Instructions To Setup
+
+**Development**
+> `npm run dev` - run React (Vite) and Electron together  
+> `npm run dev:react` - run only React (Vite)  
+> `npm run dev:electron` - run only Electron  
+
+**Build**
+> `npm run dist:win` - build for Windows  
+> `npm run dist:linux` - build for Linux  
+> `npm run dist:mac` - build for macOS  
+
+**Testing**
+> `npm run test:e2e` - run end-to-end tests  
+> `npm run test:unit` - run Electron unit tests
+
+
+# Extra Information
+
+> Other commands are available in **package.json**  
+> The **types** file in the root defines global types for React (adds to `window` object)  
+> React code is located in **src/UI**  
+> Electron code is located in **src/electron**  
+> Build configuration is in **electron-builder.json**
